@@ -1,0 +1,36 @@
+{
+  "RSpec": {
+    "coverage": {
+      "/Users/gregoryarmstrong/turing/4module/Projects/IdeaBox/app/helpers/application_helper.rb": [
+        1,
+        null
+      ],
+      "/Users/gregoryarmstrong/turing/4module/Projects/IdeaBox/app/models/idea.rb": [
+        1,
+        null
+      ],
+      "/Users/gregoryarmstrong/turing/4module/Projects/IdeaBox/app/controllers/api/api_controller.rb": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "/Users/gregoryarmstrong/turing/4module/Projects/IdeaBox/app/controllers/api/v1/items/items_controller.rb": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "/Users/gregoryarmstrong/turing/4module/Projects/IdeaBox/app/controllers/application_controller.rb": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "timestamp": 1458590162
+  }
+}
