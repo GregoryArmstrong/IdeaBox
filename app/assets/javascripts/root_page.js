@@ -19,6 +19,6 @@ function queryAllIdeas(){
 
 function createListElements(ideas){
   ideas.forEach(function(idea){
-    $("#list").append( $("<li>" + "Title: " + idea.title + " Body: " + idea.body + " Quality: " + idea.quality + "</li>"));
+      $("#list").append( $("<li>" + "Title: " + idea.title + " Body: " + idea.body + " Quality: " + idea.quality + "</li>"));
   })
 }
