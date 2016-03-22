@@ -64,8 +64,39 @@ function queryAllIdeas(){
       console.log('fail', xhr);
     }
   }).done(function() {
-    $('.delete_button').on('click', deleteListElement)
+    setDeleteListener();
+    setThumbsUpListener();
   })
+}
+function changeQuality(){
+  var target_idea = $(this).parent()
+  $.ajax({
+    url: ("api/v1/ideas/" + target_idea.attr('id')),
+    type: "PUT",
+    dataType: "json",
+    data: { quality: 1 },
+    success: function(response){
+      console.log('update success', response);
+    },
+    error: function(xhr){
+      console.log('update fail', xhr);
+    }
+  }).done(function(){
+    clearIdeas();
+    queryAllIdeas();
+  })
+}
+
+function clearIdeas(){
+  $('#list').children().remove();
+}
+
+function setThumbsUpListener(){
+  $('.thumbs_up_button').on('click', changeQuality);
+}
+
+function setDeleteListener(){
+  $('.delete_button').on('click', deleteListElement);
 }
 
 function setQuality(quality){
@@ -83,13 +114,27 @@ function setBody(body){
   return body.substring(0, 99);
 }
 
+function createDeleteButton(){
+  return " <a href='#' class='delete_button'>Delete</a>";
+}
+
+function createThumbsUpButton(){
+  return " <a href='#' class='thumbs_up_button'>Thumbs Up</a>";
+}
+
+function createThumbsDownButton(){
+  return " <a href='#' class='thumbs_down_button'>Thumbs Down</a>";
+
+}
+
 function createListElements(ideas){
   ideas.forEach(function(idea){
-    $("#list").append( $("<li id=" + idea.id + ">" + "Title: " + idea.title + " Body: " + setBody(idea.body) + " Quality: " + setQuality(idea.quality) + "<a href='#' class='delete_button'>Delete</a></li>"));
+    $("#list").append( $("<li id=" + idea.id + ">" + "Title: " + idea.title + " Body: " + setBody(idea.body) + " Quality: " + setQuality(idea.quality) + createDeleteButton() + createThumbsUpButton() + createThumbsDownButton() + "</li>"));
   })
 }
 
 function createListElement(idea){
-  $("#list").append( $("<li id=" + idea.id + ">" + "Title: " + idea.title + " Body: " + setBody(idea.body) + " Quality: " + setQuality(idea.quality) + "<a href='#' class='delete_button'>Delete</a></li>"));
-  $('.delete_button').on('click', deleteListElement);
+  $("#list").append( $("<li id=" + idea.id + ">" + "Title: " + idea.title + " Body: " + setBody(idea.body) + " Quality: " + setQuality(idea.quality) + createDeleteButton() + createThumbsUpButton() + createThumbsDownButton() + "</li>"));
+  setDeleteListener();
+  setThumbsUpListener();
 }
