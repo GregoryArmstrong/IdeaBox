@@ -14,6 +14,13 @@ class Api::V1::IdeasController < Api::ApiController
     respond_with(@idea, :status => :created, :location => api_v1_ideas_path)
   end
 
+  def update
+    @idea = Idea.find(params[:id])
+    @idea.quality += params[:quality].to_i
+    @idea.save
+    respond_with(@idea, :status => :success)
+  end
+
   def destroy
     @idea = Idea.find(params[:id])
     @idea.destroy
