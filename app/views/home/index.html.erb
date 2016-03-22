@@ -1,3 +1,13 @@
 <h1>Ideas Index</h1>
 <ul id="list">
 </ul>
+
+<%= form_for(@idea, remote: true, url: '#') do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+
+  <%= f.label :body %>
+  <%= f.text_field :body %>
+
+  <input type="button" value="Save" id="submit_button"/>
+<% end %>
