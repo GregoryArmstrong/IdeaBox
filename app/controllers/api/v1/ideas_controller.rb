@@ -7,26 +7,29 @@ class Api::V1::IdeasController < Api::ApiController
   end
 
   def create
-    @idea = Idea.create(title: params["title"],
+    idea = Idea.create(title: params["title"],
                         body: params["body"]
                        )
-
-    respond_with(@idea, :status => :created, :location => api_v1_ideas_path)
+    respond_with :api, :v1, idea
   end
 
   def update
-    @idea = Idea.find(params[:id])
-    @idea.quality += params[:quality].to_i
-    @idea.save
-    respond_with(@idea, :status => :success)
+    idea = Idea.find(params[:id])
+    if ((idea.quality + params[:quality].to_i) > 3) || ((idea.quality + params[:quality].to_i) < 1 )
+      respond_with nil
+    else
+      idea.quality += params[:quality].to_i
+      idea.save
+
+      respond_with :api, :v1, idea
+    end
   end
 
   def destroy
-    @idea = Idea.find(params[:id])
-    @idea.destroy
-    respond_with @idea do |format|
-      format.js { head :ok }
-    end
+    idea = Idea.find(params[:id])
+    idea.destroy
+
+    respond_with :api, :v1, idea
   end
 
 end

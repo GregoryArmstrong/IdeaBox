@@ -66,20 +66,22 @@ function queryAllIdeas(){
   }).done(function() {
     setDeleteListener();
     setThumbsUpListener();
+    setThumbsDownListener();
   })
 }
-function changeQuality(){
-  var target_idea = $(this).parent()
+function changeQuality(event){
+  var target_idea = $(this).parent();
   $.ajax({
     url: ("api/v1/ideas/" + target_idea.attr('id')),
     type: "PUT",
     dataType: "json",
-    data: { quality: 1 },
+    data: { quality: event.data.change },
     success: function(response){
       console.log('update success', response);
     },
     error: function(xhr){
       console.log('update fail', xhr);
+      alert("Unable to change quality higher than Genius or lower than Swill");
     }
   }).done(function(){
     clearIdeas();
@@ -92,7 +94,11 @@ function clearIdeas(){
 }
 
 function setThumbsUpListener(){
-  $('.thumbs_up_button').on('click', changeQuality);
+  $('.thumbs_up_button').click({ change: 1 }, changeQuality);
+}
+
+function setThumbsDownListener(){
+  $('.thumbs_down_button').click({ change: -1 }, changeQuality);
 }
 
 function setDeleteListener(){
@@ -124,7 +130,6 @@ function createThumbsUpButton(){
 
 function createThumbsDownButton(){
   return " <a href='#' class='thumbs_down_button'>Thumbs Down</a>";
-
 }
 
 function createListElements(ideas){
@@ -137,4 +142,5 @@ function createListElement(idea){
   $("#list").append( $("<li id=" + idea.id + ">" + "Title: " + idea.title + " Body: " + setBody(idea.body) + " Quality: " + setQuality(idea.quality) + createDeleteButton() + createThumbsUpButton() + createThumbsDownButton() + "</li>"));
   setDeleteListener();
   setThumbsUpListener();
+  setThumbsDownListener();
 }
