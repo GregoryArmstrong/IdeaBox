@@ -1,7 +1,24 @@
 $(document).ready(function(){
   queryAllIdeas();
-  $('#submit_button').on('click', submitNewIdea)
-})
+  $('#submit_button').on('click', submitNewIdea);
+});
+
+function deleteListElement(){
+  var target_line = $(this).parent()
+  $.ajax({
+    url: ("api/v1/ideas/" + target_line.attr('id')),
+    type: "DELETE",
+    dataType: 'json',
+    success: function(response){
+      console.log('delete success', response);
+    },
+    error: function(xhr){
+      console.log('fail', xhr);
+    }
+  }).done(function(){
+    target_line.remove();
+  })
+};
 
 function submitNewIdea(){
   $.ajax({
@@ -46,15 +63,18 @@ function queryAllIdeas(){
     error: function(xhr){
       console.log('fail', xhr);
     }
+  }).done(function() {
+    $('.delete_button').on('click', deleteListElement)
   })
 }
 
 function createListElements(ideas){
   ideas.forEach(function(idea){
-      $("#list").append( $("<li>" + "Title: " + idea.title + " Body: " + idea.body + " Quality: " + idea.quality + "</li>"));
+    $("#list").append( $("<li id=" + idea.id + ">" + "Title: " + idea.title + " Body: " + idea.body + " Quality: " + idea.quality + "<a href='#' class='delete_button'>Delete</a></li>"));
   })
 }
 
 function createListElement(idea){
-  $("#list").append( $("<li>" + "Title: " + idea.title + " Body: " + idea.body + " Quality: " + idea.quality + "</li>"));
+  $("#list").append( $("<li id=" + idea.id + ">" + "Title: " + idea.title + " Body: " + idea.body + " Quality: " + idea.quality + "<a href='#' class='delete_button'>Delete</a></li>"));
+  $('.delete_button').on('click', deleteListElement);
 }
