@@ -68,13 +68,28 @@ function queryAllIdeas(){
   })
 }
 
+function setQuality(quality){
+  switch (quality) {
+    case 1: return "Swill";
+      break;
+    case 2: return "Plausible";
+      break;
+    case 3: return "Genius";
+      break;
+  }
+}
+
+function setBody(body){
+  return body.substring(0, 99);
+}
+
 function createListElements(ideas){
   ideas.forEach(function(idea){
-    $("#list").append( $("<li id=" + idea.id + ">" + "Title: " + idea.title + " Body: " + idea.body + " Quality: " + idea.quality + "<a href='#' class='delete_button'>Delete</a></li>"));
+    $("#list").append( $("<li id=" + idea.id + ">" + "Title: " + idea.title + " Body: " + setBody(idea.body) + " Quality: " + setQuality(idea.quality) + "<a href='#' class='delete_button'>Delete</a></li>"));
   })
 }
 
 function createListElement(idea){
-  $("#list").append( $("<li id=" + idea.id + ">" + "Title: " + idea.title + " Body: " + idea.body + " Quality: " + idea.quality + "<a href='#' class='delete_button'>Delete</a></li>"));
+  $("#list").append( $("<li id=" + idea.id + ">" + "Title: " + idea.title + " Body: " + setBody(idea.body) + " Quality: " + setQuality(idea.quality) + "<a href='#' class='delete_button'>Delete</a></li>"));
   $('.delete_button').on('click', deleteListElement);
 }
