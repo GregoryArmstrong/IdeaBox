@@ -83,10 +83,8 @@ function changeQuality(event){
     },
     error: function(xhr){
       console.log('update fail', xhr);
-      alert("Unable to change quality higher than Genius or lower than Swill");
     }
   }).done(function(){
-    clearIdeas();
     queryAllIdeas();
   })
 }
@@ -140,29 +138,41 @@ function createEditButton(){
 
 function setEditIdeaListener(){
   $('.title_paragraph').click(submitEditedContent);
+  $('.body_paragraph').click(submitEditedContent);
 }
 
 function submitEditedContent(){
-  $('.title_paragraph').keydown(function(event) {
+  $('.title_paragraph, .body_paragraph').keydown(function(event) {
+    var target_idea = $(this).parent();
+    $('body').click(target_idea, sendAJAXPut);
     if (event.which == 13) {
       event.preventDefault();
-      var target_idea = $(this).parent();
-      $.ajax({
-        url: ("api/v1/ideas/" + target_idea.attr('id')),
-        type: "PUT",
-        dataType: "json",
-        data: { title: editedIdeaTitle(target_idea),
-                body: editedIdeaBody(target_idea)
-              },
-        success: function(response){
-          console.log('title / body edited success', response);
-          queryAllIdeas();
-        },
-        error: function(xhr){
-          console.log('title / body edited fail', xhr);
-        }
-      })
+      sendAJAXPut(target_idea);
     } else {
+    }
+  })
+}
+
+function sendAJAXPut(target_idea){
+  $('body').unbind();
+  if (target_idea['type'] == 'click') {
+    var target = target_idea['data']
+  } else {
+    var target = target_idea
+  };
+  $.ajax({
+    url: ("api/v1/ideas/" + target.attr('id')),
+    type: "PUT",
+    dataType: "json",
+    data: { title: editedIdeaTitle(target),
+            body: editedIdeaBody(target)
+          },
+    success: function(response){
+      console.log('title / body edited success', response);
+      queryAllIdeas();
+    },
+    error: function(xhr){
+      console.log('title / body edited fail', xhr);
     }
   })
 }
