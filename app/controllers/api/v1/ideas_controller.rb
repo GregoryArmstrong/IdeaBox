@@ -15,7 +15,13 @@ class Api::V1::IdeasController < Api::ApiController
 
   def update
     idea = Idea.find(params[:id])
-    if ((idea.quality + params[:quality].to_i) > 3) || ((idea.quality + params[:quality].to_i) < 1 )
+    if params[:title] || params[:body]
+      idea.title = params[:title]
+      idea.body = params[:body]
+      idea.save
+
+      respond_with :api, :v1, idea
+    elsif params[:quality] && (((idea.quality + params[:quality].to_i) > 3) || ((idea.quality + params[:quality].to_i) < 1 ))
       respond_with nil
     else
       idea.quality += params[:quality].to_i

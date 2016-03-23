@@ -52,6 +52,7 @@ function ideaBody(){
 }
 
 function queryAllIdeas(){
+  clearIdeas();
   $.ajax({
     url: "api/v1/ideas",
     type: "GET",
@@ -67,6 +68,7 @@ function queryAllIdeas(){
     setDeleteListener();
     setThumbsUpListener();
     setThumbsDownListener();
+    setEditIdeaListener();
   })
 }
 function changeQuality(event){
@@ -132,14 +134,55 @@ function createThumbsDownButton(){
   return " <a href='#' class='thumbs_down_button'>Thumbs Down</a>";
 }
 
+function createEditButton(){
+  return " <a href='#' class='edit_button'>Edit</a>";
+}
+
+function setEditIdeaListener(){
+  $('.title_paragraph').click(submitEditedContent);
+}
+
+function submitEditedContent(){
+  $('.title_paragraph').keydown(function(event) {
+    if (event.which == 13) {
+      event.preventDefault();
+      var target_idea = $(this).parent();
+      $.ajax({
+        url: ("api/v1/ideas/" + target_idea.attr('id')),
+        type: "PUT",
+        dataType: "json",
+        data: { title: editedIdeaTitle(target_idea),
+                body: editedIdeaBody(target_idea)
+              },
+        success: function(response){
+          console.log('title / body edited success', response);
+          queryAllIdeas();
+        },
+        error: function(xhr){
+          console.log('title / body edited fail', xhr);
+        }
+      })
+    } else {
+    }
+  })
+}
+
+function editedIdeaTitle(idea){
+  return idea.children().first().text();
+}
+
+function editedIdeaBody(idea){
+  return idea.children().first().siblings().first().text();
+}
+
 function createListElements(ideas){
   ideas.forEach(function(idea){
-    $("#list").append( $("<li id=" + idea.id + ">" + "Title: " + idea.title + " Body: " + setBody(idea.body) + " Quality: " + setQuality(idea.quality) + createDeleteButton() + createThumbsUpButton() + createThumbsDownButton() + "</li>"));
+    $("#list").append( $("<li id=" + idea.id + ">" + "Title: <p class='title_paragraph' contenteditable='true'> " + idea.title + "</p>  Body:<p class='body_paragraph' contenteditable='true'> " + setBody(idea.body) + "</p> <p class='quality_paragraph'>Quality: " + setQuality(idea.quality) + "</p>" + createEditButton() + createDeleteButton() + createThumbsUpButton() + createThumbsDownButton() + "</li>"));
   })
 }
 
 function createListElement(idea){
-  $("#list").append( $("<li id=" + idea.id + ">" + "Title: " + idea.title + " Body: " + setBody(idea.body) + " Quality: " + setQuality(idea.quality) + createDeleteButton() + createThumbsUpButton() + createThumbsDownButton() + "</li>"));
+  $("#list").append( $("<li id=" + idea.id + ">" + "Title: <p class='title_paragraph' contenteditable='true'> " + idea.title + "</p> Body:<p class='body_paragraph' contenteditable='true'> " + setBody(idea.body) + "</p> <p class='quality_paragraph'>Quality: " + setQuality(idea.quality) + "</p>" + createEditButton() + createDeleteButton() + createThumbsUpButton() + createThumbsDownButton() + "</li>"));
   setDeleteListener();
   setThumbsUpListener();
   setThumbsDownListener();
