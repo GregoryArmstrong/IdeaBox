@@ -1,7 +1,38 @@
 $(document).ready(function(){
   queryAllIdeas();
   $('#submit_button').on('click', submitNewIdea);
+  $('#search_field').keyup(searchListElements);
 });
+
+function searchListElements(){
+  var search_term = $('#search_field').val();
+  searchMatch(search_term);
+};
+
+function searchMatch(search_term){
+  var list_items = $('.list_item').toArray();
+  list_items.forEach(function(item){
+    var title = $(item).children().first().text();
+    var body = $(item).children().first().siblings().first().text();
+    if (title.indexOf(search_term) == -1) {
+      item.style.display="none";
+    } else if (body.indexOf(search_term) == -1) {
+      item.style.display="none";
+    };
+    if (title.indexOf(search_term) !== -1) {
+      item.style.display="inline";
+    } else if (body.indexOf(search_term) !== -1) {
+      item.style.display="inline";
+    };
+  });
+};
+
+
+// Need to grab search term as typed
+// Need to grab all list items
+// Need to check each list items title and body for search term
+// if contains, show
+// else, hide
 
 function deleteListElement(){
   var target_line = $(this).parent()
@@ -169,7 +200,7 @@ function sendAJAXPut(target_idea){
           },
     success: function(response){
       console.log('title / body edited success', response);
-      // $('body').unbind();
+      $('body').unbind();
     },
     error: function(xhr){
       console.log('title / body edited fail', xhr);
@@ -187,12 +218,12 @@ function editedIdeaBody(idea){
 
 function createListElements(ideas){
   ideas.forEach(function(idea){
-    $("#list").append( $("<li id=" + idea.id + ">" + "Title: <p class='title_paragraph' contenteditable='true'> " + idea.title + "</p>  Body:<p class='body_paragraph' contenteditable='true'> " + setBody(idea.body) + "</p> <p class='quality_paragraph'>Quality: " + setQuality(idea.quality) + "</p>" + createEditButton() + createDeleteButton() + createThumbsUpButton() + createThumbsDownButton() + "</li>"));
+    $("#list").append( $("<li class='list_item' id=" + idea.id + ">" + "Title: <p class='title_paragraph' contenteditable='true'> " + setBody(idea.title) + "</p>  Body:<p class='body_paragraph' contenteditable='true'> " + setBody(idea.body) + "</p> <p class='quality_paragraph'>Quality: " + setQuality(idea.quality) + "</p>" + createEditButton() + createDeleteButton() + createThumbsUpButton() + createThumbsDownButton() + "</li>"));
   })
 };
 
 function createListElement(idea){
-  $("#list").append( $("<li id=" + idea.id + ">" + "Title: <p class='title_paragraph' contenteditable='true'> " + idea.title + "</p> Body:<p class='body_paragraph' contenteditable='true'> " + setBody(idea.body) + "</p> <p class='quality_paragraph'>Quality: " + setQuality(idea.quality) + "</p>" + createEditButton() + createDeleteButton() + createThumbsUpButton() + createThumbsDownButton() + "</li>"));
+  $("#list").append( $("<li class='list_item' id=" + idea.id + ">" + "Title: <p class='title_paragraph' contenteditable='true'> " + setBody(idea.title) + "</p> Body:<p class='body_paragraph' contenteditable='true'> " + setBody(idea.body) + "</p> <p class='quality_paragraph'>Quality: " + setQuality(idea.quality) + "</p>" + createEditButton() + createDeleteButton() + createThumbsUpButton() + createThumbsDownButton() + "</li>"));
   setDeleteListener();
   setThumbsUpListener();
   setThumbsDownListener();
