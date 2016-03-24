@@ -15,7 +15,7 @@ class Api::V1::IdeasController < Api::ApiController
 
   def update
     idea = Idea.find(params[:id])
-    if params[:title] || params[:body]
+    if params[:title] && params[:body]
       idea.title = params[:title]
       idea.body = params[:body]
       idea.save
