@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.feature "IdeaIndices", type: :feature do
   scenario "guest can see ideas on index" do
-    idea = Idea.create(title: "test_title",
-                       body: "test_body",
+    idea = Idea.create(title: "test 1 title",
+                       body: "test 1 body",
                        quality: 1)
     idea_2 = Idea.create(title: "test_title_2",
                          body: "test_body_2",
