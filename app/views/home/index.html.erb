@@ -1,4 +1,12 @@
 <h1>Ideas Index</h1>
+
+<%= form_for(@idea, remote: true, url: '#') do |f| %>
+  <%= f.label :Search %>
+  <input type="text" name="search_field" id="search_field"/>
+
+<% end %>
+
+
 <ul id="list">
 </ul>
 
