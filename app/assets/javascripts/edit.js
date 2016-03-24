@@ -25,7 +25,7 @@ function submitEditedContent(){
       sendAJAXPut(target_idea);
     } else {
     };
-    $('.container').click(target_idea, sendAJAXPut);
+    $('#list').click(target_idea, sendAJAXPut);
   });
 };
 
@@ -45,7 +45,7 @@ function sendAJAXPut(target_idea){
           },
     success: function(response){
       console.log('title / body edited success', response);
-      $('.container').unbind('click');
+      $('#list').unbind('click');
     },
     error: function(xhr){
       console.log('title / body edited fail', xhr);
