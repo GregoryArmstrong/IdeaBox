@@ -7,8 +7,8 @@ class Api::V1::IdeasController < Api::ApiController
   end
 
   def create
-    idea = Idea.create(title: params["title"],
-                        body: params["body"]
+    idea = Idea.create(title: params[:title],
+                        body: params[:body]
                        )
     respond_with :api, :v1, idea
   end
