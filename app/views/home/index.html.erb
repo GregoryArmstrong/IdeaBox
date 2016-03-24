@@ -1,21 +1,23 @@
-<h1>Ideas Index</h1>
+<div class="container">
+  <h1>Ideas Index</h1>
 
-<%= form_for(@idea, remote: true, url: '#') do |f| %>
-  <%= f.label :Search %>
-  <input type="text" name="search_field" id="search_field"/>
+  <%= form_for(@idea, remote: true, url: '#') do |f| %>
+    <%= f.label :Search %>
+    <input type="text" name="search_field" id="search_field"/>
 
-<% end %>
+  <% end %>
 
 
-<ul id="list">
-</ul>
+  <ul id="list">
+  </ul>
 
-<%= form_for(@idea, remote: true, url: '#') do |f| %>
-  <%= f.label :title %>
-  <%= f.text_field :title %>
+  <%= form_for(@idea, remote: true, url: '#') do |f| %>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
 
-  <%= f.label :body %>
-  <%= f.text_field :body %>
+    <%= f.label :body %>
+    <%= f.text_field :body %>
 
-  <input type="button" value="Save" id="submit_button"/>
-<% end %>
+    <input type="button" value="Save" id="submit_button"/>
+  <% end %>
+</div>

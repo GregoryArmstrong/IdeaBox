@@ -3,7 +3,6 @@ function setListeners(){
   setThumbsUpListener();
   setThumbsDownListener();
   setEditIdeaListener();
-  setBodyListener();
 };
 
 function setDeleteListener(){
@@ -22,7 +21,3 @@ function setEditIdeaListener(){
   $('.title_paragraph').click(submitEditedContent);
   $('.body_paragraph').click(submitEditedContent);
 };
-
-function setBodyListener(target_idea){
-  $('body').click(target_idea, sendAJAXPut);
-}

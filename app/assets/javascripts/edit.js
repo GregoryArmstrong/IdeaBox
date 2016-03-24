@@ -20,19 +20,18 @@ function changeQuality(event){
 function submitEditedContent(){
   $('.title_paragraph, .body_paragraph').keydown(function(event) {
     var target_idea = $(this).parent();
-    setBodyListener();
     if (event.which == 13) {
       event.preventDefault();
       sendAJAXPut(target_idea);
     } else {
     };
+    $('.container').click(target_idea, sendAJAXPut);
   });
 };
 
-
+// start here on thursday morning
 function sendAJAXPut(target_idea){
-  debugger;
-  if (target_idea['type'] == 'click') {
+  if (target_idea['type'] == "click") {
     var target = target_idea['data'];
   } else {
     var target = target_idea;
@@ -46,7 +45,7 @@ function sendAJAXPut(target_idea){
           },
     success: function(response){
       console.log('title / body edited success', response);
-      $('body').unbind();
+      $('.container').unbind('click');
     },
     error: function(xhr){
       console.log('title / body edited fail', xhr);
