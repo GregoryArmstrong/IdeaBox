@@ -73,11 +73,11 @@ function truncateText(body){
 
 function formatQuality(quality){
   switch (quality) {
-    case 1: return "Swill </p>";
+    case 1: return "Swill </p><br>";
       break;
-    case 2: return "Plausible </p>";
+    case 2: return "Plausible </p><br>";
       break;
-    case 3: return "Genius </p>";
+    case 3: return "Genius </p><br>";
       break;
   }
 };
@@ -92,13 +92,13 @@ function clearForm(){
 };
 
 function createDeleteButton(){
-  return " <a href='#' class='delete_button'>Delete</a>";
+  return " <a href='#' class='delete_button' id='btn'>Delete</a>";
 };
 
 function createThumbsUpButton(){
-  return " <a href='#' class='thumbs_up_button'>Thumbs Up</a>";
+  return " <a href='#' class='thumbs_up_button' id='btn'>Thumbs Up</a>";
 };
 
 function createThumbsDownButton(){
-  return " <a href='#' class='thumbs_down_button'>Thumbs Down</a>";
+  return " <a href='#' class='thumbs_down_button' id='btn'>Thumbs Down</a>";
 };
